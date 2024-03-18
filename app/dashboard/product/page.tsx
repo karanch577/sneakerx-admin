@@ -21,11 +21,12 @@ import { useToast } from "@/components/ui/use-toast";
 
 function Product() {
   const [page, setPage] = useState<number>(1);
+  console.log(page)
 
   const { toast } = useToast();
 
   let { isPending, isError, data, error, refetch } = useQuery<GetProductsRes, AxiosError<ApiCustomError>>({
-    queryKey: ["products"],
+    queryKey: ["products", page],
     queryFn: async () => {
       const res: AxiosResponse<GetProductsRes> = await axios.get(
         `${baseUrl}/product/list?page=${page}&limit=10`,
@@ -136,7 +137,7 @@ function Product() {
     <div className="mr-16 mt-12">
       <Card>
         <CardHeader>
-          <CardTitle>Product</CardTitle>
+          <CardTitle className="mx-3">Product</CardTitle>
         </CardHeader>
         <CardContent>
           <Link href="/dashboard/product/add" className="flex items-center gap-1 justify-end">

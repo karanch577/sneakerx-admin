@@ -27,7 +27,7 @@ function Category() {
   const { toast } = useToast();
 
   let { isPending, isError, error, data, refetch } = useQuery<GetCategoriesRes, AxiosError<ApiCustomError>>({
-    queryKey: ["categories"],
+    queryKey: ["categories", page],
     queryFn: async () => {
       const res: AxiosResponse<GetCategoriesRes> = await axios.get(
         `${baseUrl}/category/all?page=${page}&limit=10`,
@@ -129,7 +129,7 @@ function Category() {
     <div className="mr-16 mt-12">
       <Card>
         <CardHeader>
-          <CardTitle>Category</CardTitle>
+          <CardTitle className="mx-3">Category</CardTitle>
         </CardHeader>
         <CardContent>
           <Link href="/dashboard/category/add" className="flex items-center gap-1 justify-end">

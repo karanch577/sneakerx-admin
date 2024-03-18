@@ -16,12 +16,23 @@ import {
   
   export function PaginationComponent({currentPage, totalPage, setPage}: PaginationProps) {
 
-  console.log(totalPage)
+    const handleNext = () => {
+      if(currentPage < totalPage) {
+        setPage(currentPage + 1)
+      }
+    }
+
+    const handlePrev = () => {
+      if(currentPage > 1) {
+        setPage(currentPage - 1)
+      }
+    }
+
     return (
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious />
+            <PaginationPrevious onClick={handlePrev} />
           </PaginationItem>
             {[...Array(totalPage)].map((_, i) => (
                 <PaginationLink key={i} onClick={() => setPage(i+1)} isActive={i+1 === currentPage}>{i+1}</PaginationLink>
@@ -30,7 +41,7 @@ import {
             <PaginationEllipsis />
           </PaginationItem> */}
           <PaginationItem>
-            <PaginationNext />
+            <PaginationNext onClick={handleNext} />
           </PaginationItem>
         </PaginationContent>
       </Pagination>

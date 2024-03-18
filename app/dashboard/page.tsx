@@ -2,6 +2,7 @@ import React from 'react'
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import ProductList from '@/components/product-list';
 import UserList from '@/components/user-list';
+import Sales from '@/components/sales';
 
 
 function DashboardPage() {
@@ -12,6 +13,7 @@ function DashboardPage() {
         <CardHeader>
         </CardHeader>
         <CardContent>
+          <Sales />
           <ProductList />
           <UserList />
         </CardContent>

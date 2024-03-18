@@ -66,7 +66,7 @@ function EditUser({ data, refetch }: EditUserProps) {
     },
   });
 
-  const { mutate: editUser } = useMutation({
+  const { mutate: editUser, isPending } = useMutation({
     mutationFn: async (values: z.infer<typeof formSchema>) => {
       const res = await axios.patch(
         `${baseUrl}/user/update/${data._id}`,
@@ -181,7 +181,7 @@ function EditUser({ data, refetch }: EditUserProps) {
                   )}
                 />
                 <div className="flex justify-between">
-                  <Button type="submit">Update</Button>
+                  <Button type="submit" disabled={isPending}>Update</Button>
                   <AlertDialogCancel onClick={() => form.reset()}>
                     Cancel
                   </AlertDialogCancel>

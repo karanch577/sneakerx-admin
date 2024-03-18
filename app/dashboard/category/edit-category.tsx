@@ -48,7 +48,7 @@ function EditCategory({ data, refetch }: EditCategoryProps) {
     },
   });
 
-  const { mutate: editCategory } = useMutation({
+  const { mutate: editCategory, isPending } = useMutation({
     mutationFn: async (values: z.infer<typeof formSchema>) => {
       const res = await axios.put(`${baseUrl}/category/${data._id}`, values, {
         withCredentials: true,
@@ -117,7 +117,7 @@ function EditCategory({ data, refetch }: EditCategoryProps) {
                   />
 
                   <div className="flex justify-between">
-                    <Button type="submit">Update</Button>
+                    <Button type="submit" disabled={isPending}>Update</Button>
                     <AlertDialogCancel onClick={() => form.reset()}>
                       Cancel
                     </AlertDialogCancel>

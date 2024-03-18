@@ -129,7 +129,7 @@ function Coupon() {
     <div className="mr-16 mt-12">
       <Card>
         <CardHeader>
-          <CardTitle>Coupon</CardTitle>
+          <CardTitle className="mx-3">Coupon</CardTitle>
         </CardHeader>
         <CardContent>
           <Link

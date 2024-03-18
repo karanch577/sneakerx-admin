@@ -85,6 +85,7 @@ function AddProduct() {
 
   const {
     mutate: addProduct,
+    isPending
   } = useMutation({
     mutationFn: async (values: z.infer<typeof formSchema>) => {
       console.log(values);
@@ -349,7 +350,7 @@ function AddProduct() {
                 )}
               />
 
-              <Button type="submit">Add</Button>
+              <Button type="submit" disabled={isPending}>Add</Button>
             </form>
           </Form>
         </CardContent>

@@ -186,7 +186,7 @@ function AddUser() {
                 )}
               />
 
-              <Button type="submit">Add</Button>
+              <Button type="submit" disabled={isPending}>Add</Button>
             </form>
           </Form>
         </CardContent>

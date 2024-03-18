@@ -115,7 +115,7 @@ function Login() {
             </FormItem>
           )}
         />
-          <Button type="submit">Login</Button>
+          <Button type="submit" disabled={isPending}>Login</Button>
       </form>
     </Form>
     </div>

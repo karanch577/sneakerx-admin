@@ -112,7 +112,7 @@ function ProductList() {
             <Link href={`./product/${data._id}`}>
             <Eye />
             </Link>
-            <Link href={`./product/update/${data._id}`}>
+            <Link href={`./dashboard/product/update/${data._id}`}>
               <FilePenLine />
             </Link>
             <div

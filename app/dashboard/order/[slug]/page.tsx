@@ -130,7 +130,7 @@ function OrderDetail({ params }: { params: { slug: string } }) {
 
           {/* orders products */}
           <div>
-            <p className="font-semibold">Orderd {products.length === 1 ? "Product" : "Products"}</p>
+            <p className="font-semibold">Orderd {products?.length === 1 ? "Product" : "Products"}</p>
             <div className="products flex gap-5 mt-2 overflow-auto">
               {products && products.length > 0 && products[0].data?.product && products.map(item => (
                 <div key={item.data.product._id} className="w-[220px]">

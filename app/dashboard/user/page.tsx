@@ -25,7 +25,7 @@ function User() {
 
   const { toast } = useToast();
   let { isPending, isError, data, error, refetch } = useQuery<GetUsersRes, AxiosError<ApiCustomError>>({
-    queryKey: ["users"],
+    queryKey: ["users", page],
     queryFn: async () => {
       const res: AxiosResponse<GetUsersRes> = await axios.get(
         `${baseUrl}/user/all?page=${page}&limit=10`,
@@ -134,7 +134,7 @@ function User() {
     <div className="mr-16 mt-12">
       <Card>
         <CardHeader>
-          <CardTitle>User</CardTitle>
+          <CardTitle className="mx-3">User</CardTitle>
         </CardHeader>
         <CardContent>
           <Link href="/dashboard/user/add" className="flex items-center gap-1 justify-end">

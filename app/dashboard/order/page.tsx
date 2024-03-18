@@ -25,7 +25,7 @@ function Order() {
   const { toast } = useToast();
 
   let { isPending, isError, error, data, refetch } = useQuery<GetOrdersRes, AxiosError<ApiCustomError>>({
-    queryKey: ["orders"],
+    queryKey: ["orders", page],
     queryFn: async () => {
       const res: AxiosResponse<GetOrdersRes> = await axios.get(
         `${baseUrl}/order/all?page=${page}&limit=10`,
@@ -161,7 +161,7 @@ function Order() {
     <div className="mr-16 mt-12">
       <Card>
         <CardHeader>
-          <CardTitle>Order</CardTitle>
+          <CardTitle className="mx-3">Order</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex justify-end text-sm">

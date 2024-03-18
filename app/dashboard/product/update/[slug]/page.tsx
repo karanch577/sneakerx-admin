@@ -143,7 +143,7 @@ function UpdateProduct({ params }: { params: { slug: string } }) {
     },
   });
 
-  const { mutate: addProduct } = useMutation({
+  const { mutate: addProduct, isPending:isAddPending } = useMutation({
     mutationFn: async (values: z.infer<typeof formSchema>) => {
     // preventing all photos removal
     if(photos.length === productDetail?.product.photos.length) {
@@ -507,7 +507,7 @@ function UpdateProduct({ params }: { params: { slug: string } }) {
                   )}
                 />
 
-                <Button type="submit">Update</Button>
+                <Button type="submit" disabled={isAddPending}>Update</Button>
               </form>
             </Form>
           )}

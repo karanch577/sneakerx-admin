@@ -51,7 +51,7 @@ function EditCoupon({ data, refetch }: EditCouponProps) {
     },
   });
 
-  const { mutate: editCoupon } = useMutation({
+  const { mutate: editCoupon, isPending } = useMutation({
     mutationFn: async (values: z.infer<typeof formSchema>) => {
       const res = await axios.put(
         `${baseUrl}/coupon/update/${data._id}`,
@@ -159,7 +159,7 @@ function EditCoupon({ data, refetch }: EditCouponProps) {
                   )}
                 />
                 <div className="flex justify-between">
-                  <Button type="submit">Update</Button>
+                  <Button type="submit" disabled={isPending}>Update</Button>
                   <AlertDialogCancel onClick={() => form.reset()}>
                     Cancel
                   </AlertDialogCancel>
