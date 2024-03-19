@@ -1,35 +1,39 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Eye, FilePenLine, PlusCircle, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { baseUrl } from "@/constants";
 import TableList from "@/components/table-list";
-import moment from "moment"
+import moment from "moment";
 import Spinner from "@/components/spinner";
 import { PaginationComponent } from "@/components/pagination";
 import { useToast } from "@/components/ui/use-toast";
 
-
 function Product() {
   const [page, setPage] = useState<number>(1);
-  console.log(page)
+  const [categoryId, setCategoryId] = useState<string>("");
 
   const { toast } = useToast();
 
-  let { isPending, isError, data, error, refetch } = useQuery<GetProductsRes, AxiosError<ApiCustomError>>({
-    queryKey: ["products", page],
+  let { isPending, isError, data, error, refetch } = useQuery<
+    GetProductsRes,
+    AxiosError<ApiCustomError>
+  >({
+    queryKey: ["products", page, categoryId],
     queryFn: async () => {
       const res: AxiosResponse<GetProductsRes> = await axios.get(
-        `${baseUrl}/product/list?page=${page}&limit=10`,
+        `${baseUrl}/product/list?page=${page}&limit=10&categoryId=${categoryId}`,
         {
           withCredentials: true,
         }
@@ -38,20 +42,34 @@ function Product() {
     },
   });
 
+  // getting the categories
 
-  if(data) {
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const res: AxiosResponse<GetCategoriesRes> = await axios.get(
+        `${baseUrl}/category/all`,
+        {
+          withCredentials: true,
+        }
+      );
+      return res.data;
+    },
+  });
+
+  if (data) {
     // formatting the date
-    data.products = data.products.map(item => {
-      if(item.createdAt) {
-        item.formattedCreatedAt = moment(item.createdAt).format("DD-MM-YYYY")
+    data.products = data.products.map((item) => {
+      if (item.createdAt) {
+        item.formattedCreatedAt = moment(item.createdAt).format("DD-MM-YYYY");
       }
 
-      if(item.updatedAt) {
-        item.formattedUpdatedAt = moment(item.updatedAt).format("DD-MM-YYYY")
+      if (item.updatedAt) {
+        item.formattedUpdatedAt = moment(item.updatedAt).format("DD-MM-YYYY");
       }
 
-      return item
-    })
+      return item;
+    });
   }
 
   // handle delete product
@@ -87,27 +105,35 @@ function Product() {
     handleDelete(data);
   };
 
+  const handleCategory = (value: string) => {
+    if(value === "all") {
+      setCategoryId("")
+      return;
+    }
+    setCategoryId(value);
+  };
+
   // table header
   const productTableHeader = [
     {
       column: "Name",
-      dataIndex: "name"
+      dataIndex: "name",
     },
     {
       column: "Price",
-      dataIndex: "price"
+      dataIndex: "price",
     },
     {
       column: "Selling Price",
-      dataIndex: "sellingPrice"
+      dataIndex: "sellingPrice",
     },
     {
       column: "Created At",
-      dataIndex: "formattedCreatedAt"
+      dataIndex: "formattedCreatedAt",
     },
     {
       column: "Updated At",
-      dataIndex: "formattedUpdatedAt"
+      dataIndex: "formattedUpdatedAt",
     },
     {
       column: "Actions",
@@ -115,7 +141,7 @@ function Product() {
         return (
           <div className="flex gap-3">
             <Link href={`./product/${data._id}`}>
-            <Eye />
+              <Eye />
             </Link>
             <Link href={`./product/update/${data._id}`}>
               <FilePenLine />
@@ -130,8 +156,7 @@ function Product() {
         );
       },
     },
-  ]
-
+  ];
 
   return (
     <div className="mr-16 mt-12">
@@ -140,10 +165,31 @@ function Product() {
           <CardTitle className="mx-3">Product</CardTitle>
         </CardHeader>
         <CardContent>
-          <Link href="/dashboard/product/add" className="flex items-center gap-1 justify-end">
+          <Link
+            href="/dashboard/product/add"
+            className="flex items-center gap-1 justify-end"
+          >
             <p className="font-semibold">Add</p>
             <PlusCircle size={15} color="green" />
           </Link>
+
+          <div className="mt-4 mb-1 w-full max-w-[200px]">
+          <Select value={categoryId} onValueChange={handleCategory}>
+            <SelectTrigger>
+              <SelectValue placeholder="select category" />
+            </SelectTrigger>
+            <SelectContent>
+            <SelectItem value="all">All Categories</SelectItem>
+              {categories &&
+                categories.collections.length > 0 &&
+                categories.collections.map((item, i) => (
+                  <SelectItem key={i} value={item._id}>
+                    {item.name}
+                  </SelectItem>
+                ))}
+            </SelectContent>
+          </Select>
+          </div>
 
           {isPending && (
             <div className="flex justify-center items-center h-[400px]">
@@ -157,17 +203,17 @@ function Product() {
             </div>
           )}
 
-          { data && data.products.length > 0 && (
-          <div>
-            <TableList data={data.products} header={productTableHeader} />
-            <div className="mt-5">
+          {data && data.products.length > 0 && (
+            <div>
+              <TableList data={data.products} header={productTableHeader} />
+              <div className="mt-5">
                 <PaginationComponent
                   currentPage={data.currentPage}
                   totalPage={data.totalPage}
                   setPage={setPage}
                 />
               </div>
-          </div>
+            </div>
           )}
         </CardContent>
       </Card>
