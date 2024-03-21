@@ -12,7 +12,7 @@ This is the Admin dashboard for Sneakerx. It is build using Nextjs 14. Tanstack 
 
 ### User: 
 email - karandemo577@gmail.com <br>
-password - 123123
+password - 543219
 
 ## Technologies
 This project was built using the following technologies:
