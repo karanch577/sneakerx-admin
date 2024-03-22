@@ -32,3 +32,33 @@ The application comes with the following features:
 - Manage orders, edit orders
 - Browse products by category
 - Get Total Sales data - by weekly, monthly, yearly
+
+## Screenshots
+
+#### Home page
+
+![homepage](./public/1.png)
+
+#### Products
+
+![homepage](./public/2.png)
+
+#### Add product
+
+![homepage](./public/3.png)
+
+#### Product Details
+
+![homepage](./public/4.png)
+
+#### Update Product
+
+![homepage](./public/5.png)
+
+#### Order details
+
+![homepage](./public/6.png)
+
+#### Edit User Details
+
+![homepage](./public/7.png)
