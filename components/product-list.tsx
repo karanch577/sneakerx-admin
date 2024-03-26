@@ -109,7 +109,7 @@ function ProductList() {
       render: (data: any) => {
         return (
           <div className="flex gap-3">
-            <Link href={`./product/${data._id}`}>
+            <Link href={`./dashboard/product/${data._id}`}>
             <Eye />
             </Link>
             <Link href={`./dashboard/product/update/${data._id}`}>
