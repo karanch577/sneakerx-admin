@@ -62,3 +62,5 @@ The application comes with the following features:
 #### Edit User Details
 
 ![homepage](./public/7.png)
+
+The end
