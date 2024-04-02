@@ -30,6 +30,7 @@ function Navbar() {
     })
 
     if(isSuccess) {
+      localStorage.removeItem("isLoggedIn")
       removeUser()
     }
 
