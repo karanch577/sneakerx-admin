@@ -122,7 +122,7 @@ function Login() {
           <div className="flex justify-between gap-5">
             <Button type="submit" disabled={isPending}>Login</Button>
             <div className="w-1/2 text-sm text-right">
-              <span>Don't have an account? </span>
+              <span>Don&#39;t have an account? </span>
               <Link className="underline" href={"./register"}>Create now</Link>
             </div>
           </div>
