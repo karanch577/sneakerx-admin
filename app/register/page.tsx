@@ -25,11 +25,12 @@ import Link from "next/link";
 
 const formSchema = z.object({
   email: z.string().email("you must enter a valid email"),
-  password: z.string().min(6)
+  password: z.string().min(6),
+  name: z.string().min(2)
 })
 
 
-function Login() {
+function Register() {
   const addUser = useUserStore((state) => state.addUser)
   const router = useRouter()
   const { toast } = useToast()
@@ -39,14 +40,13 @@ function Login() {
     defaultValues: {
       email: "",
       password: "",
+      name: ""
     }
   })
 
-  const { mutate:handleLogin, isPending } = useMutation({
+  const { mutate:handleRegister, isPending } = useMutation({
     mutationFn: async (values:  z.infer<typeof formSchema>) => {
-      const res = await axios.post(`${baseUrl}/user/signin`, values, {
-        withCredentials: true
-      })
+      const res = await axios.post(`${baseUrl}/user/signup`, {...values, isAdmin: true})
       return res.data;
     },
     onError: (error: AxiosError<ApiCustomError>) => {
@@ -66,12 +66,12 @@ function Login() {
       }
 
       if(data.success && data.user.role === "ADMIN") {
-        // storing the user
-        addUser(data.user)
+        toast({
+            title: data.message,
+            variant: "dark",
+        })
     
-        // setting isLoggedIn to true in localStorage
-        localStorage.setItem("isLoggedIn", JSON.stringify(true))
-        router.push("/dashboard")
+        router.push("/")
       }
     }
   })
@@ -80,16 +80,29 @@ function Login() {
 
   // submit handler function
   const onSubmit = async (values: z.infer<typeof formSchema>): Promise<void> => {
-    handleLogin(values)
+    handleRegister(values)
   }
 
   return (
     <div className="p-5 sm:p-0 sm:w-[400px] mx-auto min-h-screen flex flex-col justify-center">
       <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 mb-12">
-      SneakerX Admin Dashboard
+      Create Admin Account
     </h2>
       <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="email"
@@ -120,10 +133,10 @@ function Login() {
           )}
         />
           <div className="flex justify-between gap-5">
-            <Button type="submit" disabled={isPending}>Login</Button>
-            <div className="w-1/2 text-sm text-right">
-              <span>Don't have an account? </span>
-              <Link className="underline" href={"./register"}>Create now</Link>
+            <Button type="submit" disabled={isPending}>Register</Button>
+            <div className="w-1/2 text-sm text-right self-end">
+              <span>Have an account? </span>
+              <Link className="underline" href={"/"}>Login now</Link>
             </div>
           </div>
       </form>
@@ -132,4 +145,4 @@ function Login() {
   )
 }
 
-export default Login
+export default Register
