@@ -15,10 +15,12 @@ import axios from "axios";
 import { baseUrl } from "@/constants";
 import useUserStore from "@/store/useUserStore";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 
 function Navbar() {
     const user = useUserStore(state => state.user)
+    const router = useRouter()
     const removeUser = useUserStore(state => state.removeUser)
     const { mutate:handleLogout, isSuccess } = useMutation({
         mutationFn: async () => {
@@ -32,7 +34,8 @@ function Navbar() {
     if(isSuccess) {
       localStorage.removeItem("isLoggedIn")
       removeUser()
-    }
+      router.push("/")
+    } 
 
   return (
     <div className="flex justify-between mx-16 my-3">
