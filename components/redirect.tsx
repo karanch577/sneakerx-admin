@@ -5,7 +5,7 @@ import useUserStore from '@/store/useUserStore';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React, { useEffect } from 'react'
 
 
 function Redirect() {
@@ -37,12 +37,15 @@ function Redirect() {
       router.refresh()
     }
 
-      if(isError) {
+    useEffect(() => {
+      if(isError || !isLoggedIn) {
         localStorage.removeItem("isLoggedIn")
         router.push("/")
       }
 
     console.log("redirect call")
+    }, [isError, isLoggedIn, router])
+
 
   return (
     <>

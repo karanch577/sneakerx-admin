@@ -34,7 +34,6 @@ function Navbar() {
     if(isSuccess) {
       localStorage.removeItem("isLoggedIn")
       removeUser()
-      router.push("/")
     } 
 
   return (
