@@ -7,11 +7,11 @@ const Spinner = ({ border = "border-black", className = "" }) => {
     <div className="flex">
         <div className="relative">
             {/* <!-- Outer Ring--> */}
-            <div className="w-10 h-10 rounded-full absolute
+            <div className="w-8 h-8 rounded-full absolute
         border-4 border-solid border-gray-200"></div>
 
             {/* <!-- Inner Ring --> */}
-            <div className={`w-10 h-10 rounded-full animate-spin absolute
+            <div className={`w-8 h-8 rounded-full animate-spin absolute
         border-4 border-solid ${border} border-t-transparent`}></div>
         </div>
     </div>
